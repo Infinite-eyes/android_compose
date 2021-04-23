@@ -4,6 +4,7 @@ buildscript {
     ext.compose_version = '1.0.0-beta04'
     repositories {
         google()
+        jcenter()
         mavenCentral()
     }
     dependencies {
@@ -20,7 +21,7 @@ allprojects {
         google()
         mavenCentral()
         jcenter() // Warning: this repository is going to shut down soon
-        maven { url 'https://dl.bintray.com/kotlin/kotlin-eap' }
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
     }
 }
 
