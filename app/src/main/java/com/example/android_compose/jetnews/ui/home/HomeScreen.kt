@@ -1,11 +1,10 @@
 package com.example.android_compose.jetnews.ui.home
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.wrapContentSize
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -208,6 +207,9 @@ private fun PostList(
 
     LazyColumn(modifier = modifier) {
         item { PostListTopSection(postTop, navigateTo) }
+        item { PostListSimpleSection(postsSimple, navigateTo, favorites, onToggleFavorite) }
+        item { PostListPopularSection(postsPopular, navigateTo) }
+        item { PostListHistorySection(postsHistory, navigateTo) }
     }
 
 }
@@ -228,11 +230,72 @@ private fun PostListTopSection(post: Post, navigateTo: (Screen) -> Unit) {
         })
     )
 
-//    PostListD
+    PostListDivider()
 
 
 }
 
+@Composable
+private fun PostListSimpleSection(
+    posts: List<Post>,
+    navigateTo: (Screen) -> Unit,
+    favorites: Set<String>,
+    onToggleFavorite: (String) -> Unit
+) {
+    Column {
+        posts.forEach { post ->
+            PostCardSimple(
+                post = post,
+                navigateTo = navigateTo,
+                isFavorite = favorites.contains(post.id),
+                onToggleFavorite = { onToggleFavorite(post.id) }
+            )
+            PostListDivider()
+        }
+    }
+}
+
+@Composable
+private fun PostListPopularSection(
+    posts: List<Post>,
+    navigateTo: (Screen) -> Unit
+) {
+    Column {
+        Text(
+            modifier = Modifier.padding(16.dp),
+            text = "Popular on Jetnews",
+            style = MaterialTheme.typography.subtitle1,
+        )
+        LazyRow(modifier = Modifier.padding(end = 16.dp)) {
+            items(posts) { post ->
+                PostCardPopular(post, navigateTo, Modifier.padding(start = 16.dp, bottom = 16.dp))
+            }
+        }
+    }
+}
+
+@Composable
+private fun PostListHistorySection(
+    posts: List<Post>,
+    navigateTo: (Screen) -> Unit
+) {
+    Column {
+        posts.forEach { post ->
+            PostCardHistory(post, navigateTo)
+            PostListDivider()
+        }
+    }
+
+}
+
+
+@Composable
+private fun PostListDivider() {
+    Divider(
+        modifier = Modifier.padding(horizontal = 14.dp),
+        color = MaterialTheme.colors.onSurface.copy(alpha = 0.08F)
+    )
+}
 
 
 

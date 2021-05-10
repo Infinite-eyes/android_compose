@@ -7,6 +7,7 @@ import androidx.compose.runtime.Composable
 import com.example.android_compose.jetnews.data.AppContainer
 import com.example.android_compose.jetnews.data.interests.InterestsRepository
 import com.example.android_compose.jetnews.data.posts.PostsRepository
+import com.example.android_compose.jetnews.ui.article.ArticleScreen
 import com.example.android_compose.jetnews.ui.home.HomeScreen
 import com.example.android_compose.theme.JetnewsTheme
 
@@ -37,6 +38,17 @@ private fun AppContent(
                     navigateTo = navigationViewModel::navigateTo,
                     postsRepository = postsRepository,
                 )
+//                is Screen.Interests -> InterestsScreen(
+//
+//                )
+
+                is Screen.Article -> ArticleScreen(
+                    postId = screen.postId,
+                    postsRepository = postsRepository,
+                    onBack = {navigationViewModel.onBack()}
+                )
+
+
             }
         }
     }
